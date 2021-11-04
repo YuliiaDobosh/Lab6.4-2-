@@ -1,0 +1,7 @@
+﻿Build started...
+1>------ Build started: Project: Lab6.4(2), Configuration: Debug Win32 ------
+1>Lab6.4(2).cpp
+1>C:\Users\HP\source\repos\Lab6.4(2)\Lab6.4(2).cpp(71,6): warning C4101: 'i': unreferenced local variable
+1>Lab6.4(2).vcxproj -> C:\Users\HP\source\repos\Lab6.4(2)\Debug\Lab6.4(2).exe
+1>Done building project "Lab6.4(2).vcxproj".
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
