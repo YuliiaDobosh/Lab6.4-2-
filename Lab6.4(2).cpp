@@ -8,6 +8,7 @@ void Create(int*a , const int size, const int Low, const int High, int i)
 	if (i < size - 1)
 		Create(a, size, Low, High, i + 1);
 }
+
 void Print(int* a, const int size, int i)
 {
 	cout << "a[" << setw(2) << i << " ] = " << setw(4) << a[i] << endl;
@@ -16,75 +17,112 @@ void Print(int* a, const int size, int i)
 	else
 		cout << endl;
 }
-int maxInt(const int* a, int size)
+void SortArray1(int* arr1, int* arr2, const int size, int i, int& j)
 {
-	if (size == 1)
+	if (i < size)
 	{
-		return 0;
+		if (i % 2 == 0)
+		{
+			arr2[j] = arr1[i];
+			j++;
+			SortArray1(arr1, arr2, size, i + 1, j);
+		}
+		else
+			SortArray1(arr1, arr2, size, i + 1, j);
 	}
-	int max = maxInt(a + 1, size - 1) + 1;
-	return a[max] > *a ? max : 0;
 }
 
-/*int FindNull(int* a, const int size, int i, int Inull1, int Inull2, int d = 1)
+void SortArray2(int* arr1, int* arr2, const int size, int i, int& j)
 {
-	if (a[i] == 0 && a[Inull1]!=0)
+	if (i < size)
 	{
-		Inull1 = i;
-		return FindNull(a, size, i + 1, Inull1, Inull2);
-	}
-	if (a[i] == 0 && a[Inull2] != 0)
-	{
-		Inull2 = i;
-		return FindNull(a, size, Inull1 + 1, Inull1, Inull2);
-	}
-	if (i < Inull2)
-	{
-		int i = Inull1 + 1;
-		d *= a[i];
-	return FindNull(a, size, i+1 , Inull1, Inull2 ,d);
-	}
-}*/
-/*void SortArray(int* a, int* b, const int size, int j, int i)
-{
-	if ((i % 2) == 0)
-	{
-		b[j] = a[i];
-		j + 1;
-		if (i < size)
-			return SortArray(a, b, size , j , i + 1);
-	}
-		if ((i % 2) != 0)
+		if (i % 2 != 0)
 		{
-			j + 1;
-			b[j] = a[i];
-			if (i < size)
-
-				return SortArray(a, b, size , j 1, i + 1);
+			arr2[j] = arr1[i];
+			j++;
+			SortArray2(arr1, arr2, size, i + 1, j);
 		}
-	
-}*/
+		else
+			SortArray2(arr1, arr2, size, i + 1, j);
+	}
+}
+void IndexMax(const int* a, int size, int& index, int i)
+{
+	if (i < size)
+	{
+		if (a[i] > a[index]) {
+			index = i;
+		}
+		IndexMax(a, size, index, i + 1);
+	}
+}
+
+int FindNull(int* a, const int size, int i, int Inull1)
+{
+	if (i < size)
+	{
+		if (a[i] == 0)
+		{
+			Inull1 = i;
+			return Inull1;
+		}
+		else
+			return FindNull(a, size, i + 1, Inull1);
+	}
+	else
+		return Inull1;
+}
+
+
+int Dobytok(int* a, const int size, int i)
+{
+	if (i < size)
+	{
+		return a[i] * Dobytok(a, size, i + 1);
+	}
+	else
+		return 1;
+}
 int main()
 {
 	srand((unsigned)time(NULL));
-	int n;
+	int n ; 
 	int i;
 	cout << "n = "; cin >> n;
-	int* a = new int[n];
-	int* b = new int[n];
 	int Low;
 	cout << "Low= "; cin >> Low;
 	int High;
 	cout << "High = "; cin >> High;
-	Create(a, n, Low, High,0);
-	Print(a, n,0);
-	int max = -1;
-	int imax = 0;
-	cout << "Imax = " << maxInt(a, n) << endl;
-	//cout << "a*b = " << FindNull(a, n,0,0,0,1) << endl;
-	//SortArray(a, b, n,0,0);
-	//Print(b, n,0);
+	int* a = new int[n];
+	int* b = new int[n];
+	Create(a, n, Low, High, 0);
+	Print(a, n, 0);
+	int index = 0;
+	IndexMax(a, n, index, 0);
+	cout << index << endl;
+	int i1 = FindNull(a, n, 0, -1);
+	int i2 = FindNull(a, n, i1 + 1, -1);
+
+	if (i1 == -1 || i2 == -1)
+	{
+		cout << "nema nyliv" << endl;
+		return 0;
+	}
+
+	cout << "Dobytok = " << Dobytok(a, i2, i1 + 1) << endl;
+	int j = 0;
+	for (int i = 0; i <n; i++)
+	{
+		cout << a[i] << " ";
+	}
+	cout << endl;
+	SortArray1(a, b, n, 0, j);
+	SortArray2(a, b, n, 0, j);
+
+	for (int i = 0; i <n; i++)
+	{
+		cout << b[i] << " ";
+	}
 	delete[] a;
-	delete[] b;
 	return 0;
 }
